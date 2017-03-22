@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">挂起通知</string>
+    <string name="title">输入标题</string>
+    <string name="content">输入内容</string>
+    <string name="negative">撤销</string>
+    <string name="positive">通知</string>
+    <string name="regex">提取数字</string>
+    <string name="alert">内容输入框内未发现有效数字存在(需大于两位)</string>
+
+    <string name="hint">选择一个数字</string>
+    <string name="close">取消</string>
+
+    <string name="checkBox">监听剪贴板</string>
+    <string name="checkBoxBoot">开机自启动</string>
+    <string name="about">关于</string>
+    <string name="setting">设置</string>
+    <string name="ok">好了</string>
+    <string name="iKnow">知道了</string>
+
+    <string name="aboutDeveloper">作者：酷安@xiaofei_dev</string>
+    <string name="openSourceLink">https://github.com/xiaofei-dev/SuspendNotification</string>
+    <string name="aboutXBB_Title">关于本应用：</string>
+    <string name="aboutXBB_OpenSource">
+        ▶ 您可以点此访问<a href="">项目托管地址</a>。
+    </string>
+    <string name="aboutXBB_ScoreAndFeedback">
+        ▶ 您还可以点此给应用<a href="">评分或反馈</a>。
+    </string>
+    <string name="aboutXBB_Donate">
+        ▶ 点这儿<a href="">打赏</a>几块钱给作者买纸巾。
+    </string>
+
+</resources>
