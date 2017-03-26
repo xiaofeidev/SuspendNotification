@@ -157,7 +157,7 @@ public class MainActivity extends Activity {
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-                manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                //manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 NotificationCompat.Builder notificationBulider = new NotificationCompat.Builder(this)
                         .setContentTitle(head)
                         .setContentText(cont)
@@ -282,8 +282,12 @@ public class MainActivity extends Activity {
                     ClipData clipData = clipBoard.getPrimaryClip();
                     ClipData.Item item = clipData.getItemAt(0);
                     String text = item.getText().toString();
+                    //下面的条件判断是为了兼容与淘宝淘口令的冲突问题。
+                    if(text.equals("")){
+                        return;
+                    }
                     Intent intent = newIntent(MainActivity.this,text);
-                    //Intent intent1 = newIntent(MyApplication.getContext(),text);
+                    Log.d(TAG, "onPrimaryClipChanged: ");
                     startActivity(intent);
                 }
             }
