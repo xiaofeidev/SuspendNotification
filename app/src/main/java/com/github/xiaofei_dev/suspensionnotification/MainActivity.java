@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
     private EditText content;
     private NotificationManager manager;
     private static final String TAG = "MainActivity";
-    private int id;
+    private int id = 1;
     private int notifID;
     private boolean isChecked;
     private boolean isCheckedBoot;
@@ -61,12 +61,12 @@ public class MainActivity extends Activity {
         boolean back = getIntent().getBooleanExtra("moveTaskToBack",false);
         if(back){
             moveTaskToBack(true);
-            Log.i(TAG, "onCreate: moveTaskToBack2");
+            Log.i(TAG, "onCreate: moveTaskToBack");
         }
 
     }
 
-    @Override
+    /*@Override
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: ");
@@ -76,10 +76,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        /*boolean back = getIntent().getBooleanExtra("moveTaskToBack",false);
-        if(back){
-            moveTaskToBack(true);
-        }*/
         Log.d(TAG, "onResume: ");
     }
 
@@ -87,7 +83,7 @@ public class MainActivity extends Activity {
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "onRestart: ");
-    }
+    }*/
     
     @Override
     protected void onNewIntent(Intent intent) {
@@ -100,7 +96,7 @@ public class MainActivity extends Activity {
         Log.d(TAG, "onNewIntent: "+ head + " "+cont +" "+ notifID);
     }
 
-    @Override
+    /*@Override
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause: ");
@@ -110,7 +106,7 @@ public class MainActivity extends Activity {
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "onStop: ");
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -138,6 +134,7 @@ public class MainActivity extends Activity {
         switch (v.getId()){
             case R.id.negative:
                 //manager.cancelAll();
+                manager.cancel(notifID);
                 moveTaskToBack(true);
                 break;
             case R.id.positive:
@@ -163,7 +160,8 @@ public class MainActivity extends Activity {
                         .setContentText(cont)
                         .setSmallIcon(R.drawable.ic_more)
                         .setContentIntent(pi)
-                        //.setOngoing(true)
+                        .setOngoing(true)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(cont));
                         if(android.os.Build.VERSION.SDK_INT >= 21){
                             notificationBulider.setVisibility(Notification.VISIBILITY_PUBLIC);
@@ -223,6 +221,7 @@ public class MainActivity extends Activity {
         return view;
     }
 
+    //设置对话框按钮方法
     public void onSetting(View view){
         switch (view.getId()){
             case R.id.checkBox:
@@ -236,6 +235,9 @@ public class MainActivity extends Activity {
                 editor.putBoolean("IS_CHECKED_BOOT",checkedBoot);
                 editor.apply();
                 setIsCheckedBoot();
+                break;
+            case R.id.cancel_all:
+                manager.cancelAll();
                 break;
             case R.id.about:
                 Intent intent = new Intent(this,AboutActivity.class);

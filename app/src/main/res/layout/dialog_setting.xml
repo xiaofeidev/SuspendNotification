@@ -23,7 +23,7 @@
         android:id="@+id/checkBoxBoot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/line1"
+        android:layout_below="@id/line1"
         android:layout_margin="20dp"
         android:layout_centerHorizontal="true"
         android:onClick="onSetting"
@@ -31,20 +31,39 @@
     <View
         android:id="@+id/line2"
         android:layout_width="match_parent"
-        android:layout_below="@+id/checkBoxBoot"
+        android:layout_below="@id/checkBoxBoot"
+        android:layout_height="1dp"
+        android:background="@color/posColor"/>
+    <TextView
+        android:id="@+id/cancel_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="25dp"
+        android:layout_below="@id/line2"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:clickable="true"
+        android:onClick="onSetting"
+        android:textColor="@color/posColor"
+        android:background="@drawable/button_state_selector"
+        android:text="@string/cancelAll"/>
+    <View
+        android:id="@+id/line3"
+        android:layout_width="match_parent"
+        android:layout_below="@id/cancel_all"
         android:layout_height="1dp"
         android:background="@color/posColor"/>
     <TextView
         android:id="@+id/about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:layout_below="@+id/line2"
+        android:padding="25dp"
+        android:layout_below="@id/line3"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:layout_marginTop="10dp"
         android:clickable="true"
         android:onClick="onSetting"
+        android:textColor="@color/posColor"
         android:background="@drawable/button_state_selector"
         android:text="@string/about"/>
 </RelativeLayout>

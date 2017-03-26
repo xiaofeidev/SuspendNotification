@@ -13,6 +13,7 @@
     <string name="checkBox">监听剪贴板</string>
     <string name="checkBoxBoot">开机自启动</string>
     <string name="about">关于</string>
+    <string name="cancelAll">撤销所有通知</string>
     <string name="setting">设置</string>
     <string name="ok">好了</string>
     <string name="iKnow">知道了</string>

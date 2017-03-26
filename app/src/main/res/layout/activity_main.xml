@@ -10,9 +10,9 @@
         android:src="@drawable/ic_setting"
         android:scaleType="centerInside"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
         android:clickable="true"
         android:background="@drawable/text_bg"
         android:onClick="onClick"/>
@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:text="@string/positive"
         android:textColor="@color/posColor"
         style="@style/BtnTheme"/>
