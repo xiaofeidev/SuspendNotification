@@ -13,9 +13,8 @@
 支持监听剪贴板，当剪贴板有新内容自动弹出主界面。
 
 支持开机自启。
-<img src="https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/579352381817572992.jpg" width="50%" height="50%">
 
-![Alt Text](https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/579352381817572992.jpg)
-![Alt Text](https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/624164373505450979.png)
-![](https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/458944484956694613.png)
+<img src="https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/579352381817572992.jpg" width="50%" height="50%">
+<img src="https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/624164373505450979.png" width="40%" height="40%">
+<img src="https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/458944484956694613.png" width="40%" height="40%">
 
