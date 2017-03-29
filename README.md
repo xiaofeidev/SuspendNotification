@@ -13,3 +13,5 @@
 支持监听剪贴板，当剪贴板有新内容自动弹出主界面。
 
 支持开机自启。
+
+![Alt Text](https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/624164373505450979.png)
