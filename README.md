@@ -14,4 +14,7 @@
 
 支持开机自启。
 
+![Alt Text](https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/579352381817572992.jpg)
 ![Alt Text](https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/624164373505450979.png)
+![](https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/458944484956694613.png)
+
