@@ -14,6 +14,8 @@
 
 支持开机自启。
 
+安装包下载：[http://www.coolapk.com/apk/com.github.xiaofei_dev.suspensionnotification](http://www.coolapk.com/apk/com.github.xiaofei_dev.suspensionnotification)
+
 # 界面预览
 
 <img src="https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/579352381817572992.jpg" width="30%" height="30%">  <img src="https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/624164373505450979.png" width="30%" height="30%">  <img src="https://github.com/xiaofei-dev/SuspendNotification/blob/master/snap/458944484956694613.png" width="30%" height="30%">
