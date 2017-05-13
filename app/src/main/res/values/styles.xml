@@ -15,6 +15,29 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
+    <style name="SplitDialog" parent="AppTheme">
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <!--下面这行不管把背景设置成什么都会增大窗口宽度-->
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <!--<style name="SplitDialog" parent="Theme.AppCompat.Light.Dialog">-->
+        <!--<item name="colorAccent">@color/posColor</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="android:backgroundDimEnabled">false</item>-->
+        <!--<item name="android:windowBackground">@drawable/window_bg</item>-->
+        <!--<item name="listPreferredItemPaddingLeft">0dp</item>-->
+        <!--<item name="listPreferredItemPaddingRight">0dp</item>-->
+        <!--&lt;!&ndash;<item name="android:windowAnimationStyle">@style/fade</item>&ndash;&gt;-->
+    <!--</style>-->
+
+    <!--<style name="fade" parent="@android:style/Animation.Activity">-->
+        <!--<item name="android:activityOpenEnterAnimation">@anim/zoomin</item>-->
+        <!--<item name="android:activityCloseExitAnimation">@anim/zoomout</item>-->
+    <!--</style>-->
+
+
     <style name="EtTheme">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/fontColor</item>
@@ -37,11 +60,11 @@
         <item name="android:textColor">@color/btnFontColor</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/text_bg</item>
-        <item name="android:layout_marginLeft">20dp</item>
-        <item name="android:layout_marginTop">6dp</item>
-        <item name="android:layout_marginRight">20dp</item>
-        <item name="android:layout_marginBottom">20dp</item>
-        <item name="android:padding">6dp</item>
+        <item name="android:paddingStart">26dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingEnd">26dp</item>
+        <item name="android:paddingBottom">26dp</item>
+        <!--<item name="android:padding">6dp</item>-->
         <item name="android:clickable">true</item>
         <item name="android:onClick">onClick</item>
     </style>

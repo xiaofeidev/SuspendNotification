@@ -2,13 +2,15 @@
 <resources>
     <!--<color name="colorAccent">#FF4081</color>-->
 
-    <color name="fontColor">#ff333333</color>
-    <color name="btnFontColor">#ff888888</color>
+    <color name="fontColor">#333333</color>
+    <color name="btnFontColor">#888888</color>
     <color name="hintColor">#878787</color>
-    <color name="pressColor">#ffe0e0e0</color>
-    <color name="posColor">#ff00a2ff</color>
+    <color name="pressColor">#e0e0e0</color>
+    <color name="posColor">#00a2ff</color>
 
+    <color name="white">#ffffff</color>
     <color name="whiteLow">#f0f0f0</color>
     <color name="transparent">#00ffffff</color>
     <color name="translucent">#7d000000</color>
+    <color name="white_translucent">#7d7d7d7d</color>
 </resources>

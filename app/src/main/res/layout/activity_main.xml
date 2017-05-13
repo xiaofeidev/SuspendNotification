@@ -11,8 +11,7 @@
         android:scaleType="centerInside"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
+        android:padding="3dp"
         android:clickable="true"
         android:background="@drawable/text_bg"
         android:onClick="onClick"/>
@@ -40,6 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/content"
+        android:layout_alignParentStart="true"
         android:text="@string/negative"
         style="@style/BtnTheme"/>
 
@@ -49,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/content"
         android:layout_centerHorizontal="true"
+        android:layout_alignBaseline="@id/negative"
         android:text="@string/regex"
         android:textColor="@color/posColor"
         style="@style/BtnTheme"/>
@@ -59,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/content"
         android:layout_alignParentEnd="true"
+        android:layout_alignBaseline="@id/negative"
         android:text="@string/positive"
         android:textColor="@color/posColor"
         style="@style/BtnTheme"/>

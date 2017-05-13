@@ -1,4 +1,4 @@
-package com.github.xiaofei_dev.suspensionnotification;
+package com.github.xiaofei_dev.suspensionnotification.backstage;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.github.xiaofei_dev.suspensionnotification.ui.activity.MainActivity;
 
-public class MyReceiver extends BroadcastReceiver {
+
+public final class MyReceiver extends BroadcastReceiver {
     private static final String ACTION = "android.intent.action.BOOT_COMPLETED";
 
     @Override

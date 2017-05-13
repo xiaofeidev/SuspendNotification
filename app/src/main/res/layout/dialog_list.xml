@@ -7,6 +7,8 @@
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:divider="@color/posColor"
+        android:dividerHeight="1dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"/>
 </LinearLayout>
