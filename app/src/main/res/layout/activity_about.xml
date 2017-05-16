@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/radioGroup"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="31dp"
             android:layout_marginTop="32dp"
             android:text="@string/aboutDeveloper"/>
 
@@ -109,10 +109,10 @@
             android:background="@drawable/button_state_selector"
             android:layout_below="@id/author"
             android:layout_alignParentEnd="true"
-            android:padding="5dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="15dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
             android:clickable="true"
             android:onClick="onAbout"
             android:textColor="@color/posColor"

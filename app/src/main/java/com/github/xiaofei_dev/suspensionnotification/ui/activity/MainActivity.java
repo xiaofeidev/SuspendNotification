@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -74,8 +75,10 @@ public final class MainActivity extends Activity {
         boolean back = getIntent().getBooleanExtra("moveTaskToBack",false);
         if(back){
             moveTaskToBack(true);
-            Log.i(TAG, "onCreate: veTaskToBack");
+            //Log.i(TAG, "onCreate: veTaskToBack");
         }
+        //当前活动被销毁后再重建时保证调用onNewIntent(）方法
+        onNewIntent(getIntent());
         notifAddNew();
     }
 
@@ -133,8 +136,8 @@ public final class MainActivity extends Activity {
                 if(head.equals("") && cont.equals("")){
                     break;
                 }
-                head = (head.equals("")) ? "标题":head;
-                cont = (cont.equals("")) ? "内容":cont;
+                head = (head.equals("")) ? "待办事项":head;
+                cont = (cont.equals("")) ? "":cont;
 
                 Intent intent = new Intent(this,MainActivity.class);
                 intent.putExtra("title",head);
@@ -319,8 +322,9 @@ public final class MainActivity extends Activity {
                 .setContentTitle(getString(R.string.add_new_title))
                 .setContentText(getString(R.string.add_new_content))
                 .setSmallIcon(R.drawable.ic_more)
-                .setLargeIcon(BitmapFactory.decodeResource(
-                        getResources(), R.drawable.ic_launcher))
+                .setColor(Color.parseColor("#00838F"))
+//                .setLargeIcon(BitmapFactory.decodeResource(
+//                        getResources(), R.drawable.ic_launcher))
                 .setContentIntent(pi)
                 .setOngoing(true)
                 //将通知的 Priority 设置为 PRIORITY_MIN 后，通知的小图标将不在状态栏显示，而且锁屏界面也会无法显示
