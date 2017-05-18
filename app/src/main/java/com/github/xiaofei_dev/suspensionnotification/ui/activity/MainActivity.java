@@ -156,15 +156,14 @@ public final class MainActivity extends Activity {
                         .setOngoing(true)
                         //将通知的 Priority 设置为 PRIORITY_MIN 后，通知的小图标将不在状态栏显示,而且锁屏界面也会无法显示
                         //.setPriority(NotificationCompat.PRIORITY_MIN)
-                        .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(cont));
-                        if(android.os.Build.VERSION.SDK_INT >= 21){
-                            notificationBulider.setVisibility(Notification.VISIBILITY_PUBLIC);
-                        }
+                        //.setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(cont))
+                        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+
                         if(isCheckedHideIcon){
                             notificationBulider.setPriority(NotificationCompat.PRIORITY_MIN);
                         }else {
-                            //notificationBulider.setPriority(NotificationCompat.PRIORITY_HIGH);
+                            notificationBulider.setPriority(NotificationCompat.PRIORITY_HIGH);
 
                         }
                 Notification notifications = notificationBulider.build();
