@@ -17,7 +17,7 @@
         android:onClick="onClick"/>
 
 
-    <EditText
+    <com.github.xiaofei_dev.suspensionnotification.customview.DefaultEditText2
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
