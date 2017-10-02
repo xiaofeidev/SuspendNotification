@@ -1,7 +1,6 @@
 package com.github.xiaofei_dev.suspensionnotification.ui.activity;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ClipData;
@@ -10,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -47,6 +45,7 @@ public final class MainActivity extends Activity {
     private boolean isChecked;
     private boolean isCheckedBoot;
     private boolean isCheckedHideIcon;
+    private boolean isCheckedHideNew;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private final List<Integer> positions = new ArrayList<>();
@@ -54,6 +53,7 @@ public final class MainActivity extends Activity {
     private static final String IS_CHECKED = "IS_CHECKED";
     private static final String IS_CHECKED_BOOT = "IS_CHECKED_BOOT";
     private static final String IS_CHECKED_HIDE_ICON = "IS_CHECKED_HIDE_ICON";
+    private static final String IS_CHECKED_HIDE_NEW = "IS_CHECKED_HIDE_NEW";
     
 
 
@@ -70,6 +70,7 @@ public final class MainActivity extends Activity {
         setIsChecked();
         setIsCheckedBoot();
         setCheckedHideIcon();
+        setCheckedHideNew();
         clipBoardMonitor();
         Log.d(TAG, "onCreate: ");
         boolean back = getIntent().getBooleanExtra("moveTaskToBack",false);
@@ -79,7 +80,9 @@ public final class MainActivity extends Activity {
         }
         //当前活动被销毁后再重建时保证调用onNewIntent(）方法
         onNewIntent(getIntent());
-        notifAddNew();
+        if (!isCheckedHideNew){
+            notifAddNew();
+        }
     }
 
 
@@ -268,6 +271,8 @@ public final class MainActivity extends Activity {
         checkBoxBoot.setChecked(isCheckedBoot);
         CheckBox checkHideIcon = (CheckBox)view.findViewById(R.id.check_hide_icon);
         checkHideIcon.setChecked(isCheckedHideIcon);
+        CheckBox checkHideNew = (CheckBox)view.findViewById(R.id.check_hide_new);
+        checkHideNew.setChecked(isCheckedHideNew);
         return view;
     }
 
@@ -297,9 +302,23 @@ public final class MainActivity extends Activity {
                     ToastUtils.showLong(R.string.hide_icon_alert);
                 }
                 break;
+            case R.id.check_hide_new:
+                boolean checkedHideNew= ((CheckBox) view).isChecked();
+                editor.putBoolean(IS_CHECKED_HIDE_NEW,checkedHideNew);
+                editor.apply();
+                setCheckedHideNew();
+                if (checkedHideNew){
+                    manager.cancel(-1);
+                }else {
+                    notifAddNew();
+                }
+                break;
             case R.id.cancel_all:
                 manager.cancelAll();
-                notifAddNew();
+                if (!isCheckedHideNew){
+                    notifAddNew();
+                }
+                ToastUtils.showShort(R.string.cancel_all_done);
                 break;
             case R.id.about:
                 Intent intent = new Intent(this,AboutActivity.class);
@@ -375,5 +394,8 @@ public final class MainActivity extends Activity {
     }
     private void setCheckedHideIcon() {
         isCheckedHideIcon = sharedPreferences.getBoolean(IS_CHECKED_HIDE_ICON,false);
+    }
+    private void setCheckedHideNew() {
+        isCheckedHideNew = sharedPreferences.getBoolean(IS_CHECKED_HIDE_NEW,false);
     }
 }

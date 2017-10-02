@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.github.xiaofei_dev.suspensionnotification"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 6
-        versionName "2.1.1"
+        versionCode 7
+        versionName "2.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }

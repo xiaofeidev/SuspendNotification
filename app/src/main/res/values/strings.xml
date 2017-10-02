@@ -14,15 +14,17 @@
     <!--<string name="close">取消</string>-->
     <string name="select_done">选好了</string>
 
-    <string name="checkBox">监听复制事件</string>
-    <string name="checkBoxBoot">开机自动启动</string>
+    <string name="check_box">监听复制事件</string>
+    <string name="check_box_boot">开机自动启动</string>
     <string name="check_hide_icon">隐藏通知图标</string>
+    <string name="check_hide_new">隐藏入口通知</string>
     <string name="about">关于</string>
-    <string name="cancelAll">撤销所有通知</string>
+    <string name="cancel_all">撤销所有通知</string>
     <string name="setting">设置</string>
     <string name="ok">好了</string>
-    <string name="iKnow">知道了</string>
+    <string name="i_know">知道了</string>
     <string name="hide_icon_alert">打开此设置项后，发出去的通知将无法锁屏显示，请确定您有必要这么做</string>
+    <string name="cancel_all_done">已撤销所有通知</string>
 
     <string name="aboutDeveloper">作者：github@xiaofei_dev</string>
     <string name="openSourceLink">https://github.com/xiaofei-dev/SuspendNotification</string>

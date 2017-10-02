@@ -116,7 +116,7 @@
             android:clickable="true"
             android:onClick="onAbout"
             android:textColor="@color/posColor"
-            android:text="@string/iKnow"/>
+            android:text="@string/i_know"/>
     </RelativeLayout>
 
 </RelativeLayout>
