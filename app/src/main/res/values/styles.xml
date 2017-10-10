@@ -19,9 +19,6 @@
     <style name="animationUp" parent="@android:style/Animation.Translucent">
         <item name="android:windowEnterAnimation">@anim/pop_enter_anim</item>
         <item name="android:windowExitAnimation">@anim/pop_exit_anim</item>
-
-        <!--<item name="android:activityOpenEnterAnimation">@anim/pop_enter_anim</item>-->
-        <!--<item name="android:activityCloseExitAnimation">@anim/pop_exit_anim</item>-->
     </style>
 
     <style name="SplitDialog" parent="AppTheme">
