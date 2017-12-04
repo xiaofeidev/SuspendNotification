@@ -18,7 +18,6 @@ import com.github.xiaofei_dev.suspensionnotification.R;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public final class MyService extends Service {
-
     /**
      * 控制悬浮图标
      */
@@ -29,7 +28,6 @@ public final class MyService extends Service {
     private boolean isAddView;
     private Handler mHandler;
     private Runnable mAutoRemoveView;
-
 
     @Override
     public void onCreate() {
@@ -50,7 +48,6 @@ public final class MyService extends Service {
         });
 
         mWindowManager = (WindowManager)(getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
-
 
         mLayoutParams = new WindowManager.LayoutParams();
 

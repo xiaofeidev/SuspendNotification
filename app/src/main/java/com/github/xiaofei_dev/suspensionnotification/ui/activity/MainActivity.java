@@ -85,7 +85,6 @@ public final class MainActivity extends Activity {
         }
     }
 
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -350,7 +349,6 @@ public final class MainActivity extends Activity {
         Notification notification = notificationBulider.build();
         manager.notify(-1,notification);
     }
-
 
     /**
      *desc：此方法设置监听剪贴板变化，如有新的剪贴内容就启动主活动

@@ -37,6 +37,5 @@ public final class AboutActivity extends AppCompatActivity {
             default:
                 break;
         }
-
     }
 }

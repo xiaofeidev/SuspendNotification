@@ -10,11 +10,11 @@ public final class ToastUtils {
 
 
     public static void showShort(int stringId) {
-        Toast.makeText(MyApplication.getContext(), stringId, Toast.LENGTH_SHORT).show();
+        Toast.makeText(App.getContext(), stringId, Toast.LENGTH_SHORT).show();
     }
 
     public static void showLong(int stringId) {
-        Toast.makeText(MyApplication.getContext(), stringId, Toast.LENGTH_LONG).show();
+        Toast.makeText(App.getContext(), stringId, Toast.LENGTH_LONG).show();
     }
 
 //    public static void showShort(String toast) {

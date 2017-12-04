@@ -7,7 +7,7 @@ import android.content.Context;
  * Created by Administrator on 2017/3/20.
  */
 
-public final class MyApplication extends Application {
+public final class App extends Application {
 
     private static Context mContext;
     @Override
