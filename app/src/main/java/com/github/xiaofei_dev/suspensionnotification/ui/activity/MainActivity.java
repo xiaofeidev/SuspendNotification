@@ -1,7 +1,8 @@
 package com.github.xiaofei_dev.suspensionnotification.ui.activity;
 
-import android.app.Activity;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -10,11 +11,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,20 +27,16 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
-
+import android.widget.Toast;
 import com.github.xiaofei_dev.suspensionnotification.R;
 import com.github.xiaofei_dev.suspensionnotification.backstage.MyService;
 import com.github.xiaofei_dev.suspensionnotification.util.RegexText;
 import com.github.xiaofei_dev.suspensionnotification.util.ToastUtils;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
-
-public final class MainActivity extends Activity {
-
+public final class MainActivity extends AppCompatActivity {
     private EditText title;
     private EditText content;
     private NotificationManagerCompat manager;
@@ -54,13 +54,13 @@ public final class MainActivity extends Activity {
     private static final String IS_CHECKED_BOOT = "IS_CHECKED_BOOT";
     private static final String IS_CHECKED_HIDE_ICON = "IS_CHECKED_HIDE_ICON";
     private static final String IS_CHECKED_HIDE_NEW = "IS_CHECKED_HIDE_NEW";
-    
-
+    public static int OVERLAY_PERMISSION_REQ_CODE = 110;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initChannels();
         sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(this);
         editor = sharedPreferences.edit();
@@ -82,6 +82,42 @@ public final class MainActivity extends Activity {
         onNewIntent(getIntent());
         if (!isCheckedHideNew){
             notifAddNew();
+        }
+
+        //权限自检
+        if(Build.VERSION.SDK_INT >= 23){
+            if(Settings.canDrawOverlays(this)){
+//                //有悬浮窗权限则开启服务
+//                clipBoardMonitor();
+//                ToastUtil.showToast(this,getString(R.string.begin));
+                //有悬浮窗权限则只弹出提示消息
+//                ToastUtil.showShort(getString(R.string.begin));
+            }else {
+                //没有悬浮窗权限,去开启悬浮窗权限
+                ToastUtils.showShort("您需要授予应用在其他应用上层显示的权限才可正常使用");
+                try{
+                    Intent  intent=new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                    startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
+            if(Build.VERSION.SDK_INT>=23) {
+                if (!Settings.canDrawOverlays(this)) {
+                    ToastUtils.showShort("获取权限失败，应用将无法工作");
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(),"获取权限成功！应用可以正常使用了",Toast.LENGTH_SHORT).show();
+
+                }
+            }
         }
     }
 
@@ -150,7 +186,7 @@ public final class MainActivity extends Activity {
 
 
                 //manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                NotificationCompat.Builder notificationBulider = new NotificationCompat.Builder(this)
+                NotificationCompat.Builder notificationBulider = new NotificationCompat.Builder(this, "default")
                         .setContentTitle(head)
                         .setContentText(cont)
                         .setSmallIcon(R.drawable.ic_more)
@@ -335,7 +371,7 @@ public final class MainActivity extends Activity {
         Intent intent = new Intent(this,MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this,-1,intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder notificationBulider = new NotificationCompat.Builder(this)
+        NotificationCompat.Builder notificationBulider = new NotificationCompat.Builder(this, "default")
                 .setContentTitle(getString(R.string.add_new_title))
                 .setContentText(getString(R.string.add_new_content))
                 .setSmallIcon(R.drawable.ic_more)
@@ -395,5 +431,20 @@ public final class MainActivity extends Activity {
     }
     private void setCheckedHideNew() {
         isCheckedHideNew = sharedPreferences.getBoolean(IS_CHECKED_HIDE_NEW,false);
+    }
+
+    private void initChannels() {
+        if (Build.VERSION.SDK_INT < 26) {
+            return;
+        }
+        NotificationChannel channel = new NotificationChannel("default",
+                "VibrateChannel",
+                NotificationManager.IMPORTANCE_HIGH);
+        channel.enableLights(false);
+        channel.setDescription("随手一记默认通知渠道");
+        channel.setShowBadge(false);
+        channel.setSound(null, null);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(channel);
     }
 }
