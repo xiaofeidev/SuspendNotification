@@ -197,7 +197,6 @@ public final class MainActivity extends AppCompatActivity {
                         //.setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(cont))
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-
                         if(isCheckedHideIcon){
                             notificationBulider.setPriority(NotificationCompat.PRIORITY_MIN);
                         }else {
@@ -376,8 +375,7 @@ public final class MainActivity extends AppCompatActivity {
                 .setContentText(getString(R.string.add_new_content))
                 .setSmallIcon(R.drawable.ic_more)
                 .setColor(Color.parseColor("#00838F"))
-//                .setLargeIcon(BitmapFactory.decodeResource(
-//                        getResources(), R.drawable.ic_launcher))
+//                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
                 .setContentIntent(pi)
                 .setOngoing(true)
                 //将通知的 Priority 设置为 PRIORITY_MIN 后，通知的小图标将不在状态栏显示，而且锁屏界面也会无法显示
