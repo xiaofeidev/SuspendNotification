@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">随手一记</string>
+<<<<<<< HEAD
     <string name="app_version">随手一记 V2.0</string>
+=======
+    <string name="app_version">随手一记 V2.4.0</string>
+>>>>>>> 286c8bfd57790dc85e452953b2c21f42140cd7e4
     <string name="add_new_title">随手一记主界面入口</string>
     <string name="add_new_content">点击添加新通知</string>
     <string name="title">输入标题</string>
@@ -14,17 +18,20 @@
     <!--<string name="close">取消</string>-->
     <string name="select_done">选好了</string>
 
-    <string name="checkBox">监听复制事件</string>
-    <string name="checkBoxBoot">开机自动启动</string>
+    <string name="check_box">监听复制事件</string>
+    <string name="check_box_boot">开机自动启动</string>
     <string name="check_hide_icon">隐藏通知图标</string>
+    <string name="check_hide_new">隐藏入口通知</string>
     <string name="about">关于</string>
-    <string name="cancelAll">撤销所有通知</string>
+    <string name="cancel_all">撤销所有通知</string>
     <string name="setting">设置</string>
     <string name="ok">好了</string>
-    <string name="iKnow">知道了</string>
+    <string name="i_know">知道了</string>
     <string name="hide_icon_alert">打开此设置项后，发出去的通知将无法锁屏显示，请确定您有必要这么做</string>
+    <string name="cancel_all_done">已撤销所有通知</string>
 
     <string name="aboutDeveloper">作者：github@xiaofei_dev</string>
+    <string name="aboutDesign">感谢 @枫柠檬 制作图标</string>
     <string name="openSourceLink">https://github.com/xiaofei-dev/SuspendNotification</string>
     <string name="aboutXBB_Title">关于本应用：</string>
     <string name="aboutXBB_OpenSource">

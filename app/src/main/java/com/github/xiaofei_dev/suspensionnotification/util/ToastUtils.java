@@ -1,6 +1,9 @@
 package com.github.xiaofei_dev.suspensionnotification.util;
 
 import android.widget.Toast;
+
+import com.github.xiaofei_dev.suspensionnotification.App;
+
 /**
  *author Administrator
  *time 2017/5/13 15:01
@@ -10,18 +13,18 @@ public final class ToastUtils {
 
 
     public static void showShort(int stringId) {
-        Toast.makeText(MyApplication.getContext(), stringId, Toast.LENGTH_SHORT).show();
+        Toast.makeText(App.getContext(), stringId, Toast.LENGTH_SHORT).show();
     }
 
     public static void showLong(int stringId) {
-        Toast.makeText(MyApplication.getContext(), stringId, Toast.LENGTH_LONG).show();
+        Toast.makeText(App.getContext(), stringId, Toast.LENGTH_LONG).show();
     }
 
-//    public static void showShort(String toast) {
-//        Toast.makeText(MyApplication.getContext(), toast, Toast.LENGTH_SHORT).show();
-//    }
-//
-//    public static void showLong(String toast) {
-//        Toast.makeText(MyApplication.getContext(), toast, Toast.LENGTH_LONG).show();
-//    }
+    public static void showShort(String toast) {
+        Toast.makeText(App.getContext(), toast, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void showLong(String toast) {
+        Toast.makeText(App.getContext(), toast, Toast.LENGTH_LONG).show();
+    }
 }

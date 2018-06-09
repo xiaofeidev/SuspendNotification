@@ -1,7 +1,12 @@
 package com.github.xiaofei_dev.suspensionnotification.ui.activity;
 
+<<<<<<< HEAD
 import android.app.Activity;
+=======
+>>>>>>> 286c8bfd57790dc85e452953b2c21f42140cd7e4
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -10,11 +15,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,20 +31,16 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
-
+import android.widget.Toast;
 import com.github.xiaofei_dev.suspensionnotification.R;
 import com.github.xiaofei_dev.suspensionnotification.backstage.FloatingIconService;
 import com.github.xiaofei_dev.suspensionnotification.util.RegexText;
 import com.github.xiaofei_dev.suspensionnotification.util.ToastUtils;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
-
-public final class MainActivity extends Activity {
-
+public final class MainActivity extends AppCompatActivity {
     private EditText title;
     private EditText content;
     private NotificationManagerCompat manager;
@@ -45,6 +49,7 @@ public final class MainActivity extends Activity {
     private boolean isChecked;
     private boolean isCheckedBoot;
     private boolean isCheckedHideIcon;
+    private boolean isCheckedHideNew;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private final List<Integer> positions = new ArrayList<>();
@@ -52,13 +57,14 @@ public final class MainActivity extends Activity {
     private static final String IS_CHECKED = "IS_CHECKED";
     private static final String IS_CHECKED_BOOT = "IS_CHECKED_BOOT";
     private static final String IS_CHECKED_HIDE_ICON = "IS_CHECKED_HIDE_ICON";
-    
-
+    private static final String IS_CHECKED_HIDE_NEW = "IS_CHECKED_HIDE_NEW";
+    public static int OVERLAY_PERMISSION_REQ_CODE = 110;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initChannels();
         sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(this);
         editor = sharedPreferences.edit();
@@ -68,6 +74,7 @@ public final class MainActivity extends Activity {
         setIsChecked();
         setIsCheckedBoot();
         setCheckedHideIcon();
+        setCheckedHideNew();
         clipBoardMonitor();
 //        Log.d(TAG, "onCreate: ");
 //        boolean back = getIntent().getBooleanExtra("moveTaskToBack",false);
@@ -77,9 +84,46 @@ public final class MainActivity extends Activity {
 //        }
         //当前活动被销毁后再重建时保证调用onNewIntent(）方法
         onNewIntent(getIntent());
-        notifAddNew();
+        if (!isCheckedHideNew){
+            notifAddNew();
+        }
+
+        //权限自检
+        if(Build.VERSION.SDK_INT >= 23){
+            if(Settings.canDrawOverlays(this)){
+//                //有悬浮窗权限则开启服务
+//                clipBoardMonitor();
+//                ToastUtil.showToast(this,getString(R.string.begin));
+                //有悬浮窗权限则只弹出提示消息
+//                ToastUtil.showShort(getString(R.string.begin));
+            }else {
+                //没有悬浮窗权限,去开启悬浮窗权限
+                ToastUtils.showShort("您需要授予应用在其他应用上层显示的权限才可正常使用");
+                try{
+                    Intent  intent=new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                    startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
+            if(Build.VERSION.SDK_INT>=23) {
+                if (!Settings.canDrawOverlays(this)) {
+                    ToastUtils.showShort("获取权限失败，应用将无法工作");
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(),"获取权限成功！应用可以正常使用了",Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -146,7 +190,7 @@ public final class MainActivity extends Activity {
 
 
                 //manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                NotificationCompat.Builder notificationBulider = new NotificationCompat.Builder(this)
+                NotificationCompat.Builder notificationBulider = new NotificationCompat.Builder(this, "default")
                         .setContentTitle(head)
                         .setContentText(cont)
                         .setSmallIcon(R.drawable.ic_more)
@@ -157,7 +201,6 @@ public final class MainActivity extends Activity {
                         //.setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(cont))
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-
                         if(isCheckedHideIcon){
                             notificationBulider.setPriority(NotificationCompat.PRIORITY_MIN);
                         }else {
@@ -266,6 +309,8 @@ public final class MainActivity extends Activity {
         checkBoxBoot.setChecked(isCheckedBoot);
         CheckBox checkHideIcon = (CheckBox)view.findViewById(R.id.check_hide_icon);
         checkHideIcon.setChecked(isCheckedHideIcon);
+        CheckBox checkHideNew = (CheckBox)view.findViewById(R.id.check_hide_new);
+        checkHideNew.setChecked(isCheckedHideNew);
         return view;
     }
 
@@ -295,9 +340,23 @@ public final class MainActivity extends Activity {
                     ToastUtils.showLong(R.string.hide_icon_alert);
                 }
                 break;
+            case R.id.check_hide_new:
+                boolean checkedHideNew= ((CheckBox) view).isChecked();
+                editor.putBoolean(IS_CHECKED_HIDE_NEW,checkedHideNew);
+                editor.apply();
+                setCheckedHideNew();
+                if (checkedHideNew){
+                    manager.cancel(-1);
+                }else {
+                    notifAddNew();
+                }
+                break;
             case R.id.cancel_all:
                 manager.cancelAll();
-                notifAddNew();
+                if (!isCheckedHideNew){
+                    notifAddNew();
+                }
+                ToastUtils.showShort(R.string.cancel_all_done);
                 break;
             case R.id.about:
                 Intent intent = new Intent(this,AboutActivity.class);
@@ -315,13 +374,12 @@ public final class MainActivity extends Activity {
         Intent intent = new Intent(this,MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this,-1,intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder notificationBulider = new NotificationCompat.Builder(this)
+        NotificationCompat.Builder notificationBulider = new NotificationCompat.Builder(this, "default")
                 .setContentTitle(getString(R.string.add_new_title))
                 .setContentText(getString(R.string.add_new_content))
                 .setSmallIcon(R.drawable.ic_more)
                 .setColor(Color.parseColor("#00838F"))
-//                .setLargeIcon(BitmapFactory.decodeResource(
-//                        getResources(), R.drawable.ic_launcher))
+//                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
                 .setContentIntent(pi)
                 .setOngoing(true)
                 //将通知的 Priority 设置为 PRIORITY_MIN 后，通知的小图标将不在状态栏显示，而且锁屏界面也会无法显示
@@ -329,7 +387,6 @@ public final class MainActivity extends Activity {
         Notification notification = notificationBulider.build();
         manager.notify(-1,notification);
     }
-
 
     /**
      *desc：此方法设置监听剪贴板变化，如有新的剪贴内容就启动主活动
@@ -373,5 +430,23 @@ public final class MainActivity extends Activity {
     }
     private void setCheckedHideIcon() {
         isCheckedHideIcon = sharedPreferences.getBoolean(IS_CHECKED_HIDE_ICON,false);
+    }
+    private void setCheckedHideNew() {
+        isCheckedHideNew = sharedPreferences.getBoolean(IS_CHECKED_HIDE_NEW,false);
+    }
+
+    private void initChannels() {
+        if (Build.VERSION.SDK_INT < 26) {
+            return;
+        }
+        NotificationChannel channel = new NotificationChannel("default",
+                "VibrateChannel",
+                NotificationManager.IMPORTANCE_HIGH);
+        channel.enableLights(false);
+        channel.setDescription("随手一记默认通知渠道");
+        channel.setShowBadge(false);
+        channel.setSound(null, null);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(channel);
     }
 }

@@ -98,16 +98,23 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/radioGroup"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="31dp"
             android:layout_marginTop="32dp"
             android:text="@string/aboutDeveloper"/>
+        <TextView
+            android:id="@+id/author2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/author"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="31dp"
+            android:text="@string/aboutDesign"/>
 
         <TextView
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_state_selector"
-            android:layout_below="@id/author"
+            android:layout_below="@+id/author2"
             android:layout_alignParentEnd="true"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
@@ -116,7 +123,7 @@
             android:clickable="true"
             android:onClick="onAbout"
             android:textColor="@color/posColor"
-            android:text="@string/iKnow"/>
+            android:text="@string/i_know"/>
     </RelativeLayout>
 
 </RelativeLayout>
