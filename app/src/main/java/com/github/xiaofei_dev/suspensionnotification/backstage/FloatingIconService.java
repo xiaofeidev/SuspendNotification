@@ -17,7 +17,7 @@ import com.github.xiaofei_dev.suspensionnotification.R;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-public final class MyService extends Service {
+public final class FloatingIconService extends Service {
 
     /**
      * 控制悬浮图标
@@ -40,7 +40,7 @@ public final class MyService extends Service {
             @Override
             public void onClick(View v) {
 //                String text = intent.getStringExtra("TEXT");
-                Intent mainActivityIntent = MainActivity.newIntent(MyService.this,text);
+                Intent mainActivityIntent = MainActivity.newIntent(FloatingIconService.this,text);
                 mainActivityIntent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 getApplication().startActivity(mainActivityIntent);
                 removeView();

@@ -1,7 +1,6 @@
 package com.github.xiaofei_dev.suspensionnotification.ui.activity;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ClipData;
@@ -10,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -27,7 +25,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.github.xiaofei_dev.suspensionnotification.R;
-import com.github.xiaofei_dev.suspensionnotification.backstage.MyService;
+import com.github.xiaofei_dev.suspensionnotification.backstage.FloatingIconService;
 import com.github.xiaofei_dev.suspensionnotification.util.RegexText;
 import com.github.xiaofei_dev.suspensionnotification.util.ToastUtils;
 
@@ -71,12 +69,12 @@ public final class MainActivity extends Activity {
         setIsCheckedBoot();
         setCheckedHideIcon();
         clipBoardMonitor();
-        Log.d(TAG, "onCreate: ");
-        boolean back = getIntent().getBooleanExtra("moveTaskToBack",false);
-        if(back){
-            moveTaskToBack(true);
-            //Log.i(TAG, "onCreate: veTaskToBack");
-        }
+//        Log.d(TAG, "onCreate: ");
+//        boolean back = getIntent().getBooleanExtra("moveTaskToBack",false);
+//        if(back){
+//            moveTaskToBack(true);
+//            //Log.i(TAG, "onCreate: veTaskToBack");
+//        }
         //当前活动被销毁后再重建时保证调用onNewIntent(）方法
         onNewIntent(getIntent());
         notifAddNew();
@@ -106,7 +104,7 @@ public final class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent(MainActivity.this,MyService.class);
+        Intent intent = new Intent(MainActivity.this,FloatingIconService.class);
         stopService(intent);
         //撤销发出的所有通知
         //manager.cancelAll();
@@ -353,7 +351,7 @@ public final class MainActivity extends Activity {
                         return;
                     }
 
-                    Intent intent = new Intent(MainActivity.this,MyService.class);
+                    Intent intent = new Intent(MainActivity.this,FloatingIconService.class);
                     intent.putExtra("TEXT",text);
                     MainActivity.this.startService(intent);
 //                    Intent intent = newIntent(MainActivity.this,text);

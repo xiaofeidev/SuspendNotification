@@ -3,7 +3,7 @@
           package="com.github.xiaofei_dev.suspensionnotification">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <!--<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <!--<uses-permission android:name="android.permission.GET_TASKS" />-->
 
     <application
@@ -39,7 +39,7 @@
         <!--</activity>-->
 
         <receiver
-            android:name=".backstage.MyReceiver"
+            android:name=".backstage.BootReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
@@ -47,7 +47,7 @@
         </receiver>
 
         <service
-            android:name=".backstage.MyService"
+            android:name=".backstage.FloatingIconService"
             android:enabled="true">
         </service>
     </application>
