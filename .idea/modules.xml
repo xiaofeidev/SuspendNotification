@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SuspendNotification.iml" filepath="$PROJECT_DIR$/SuspendNotification.iml" />
-      <module fileurl="file://H:\androidProjectMe\SuspendNotification\SuspensionNotification.iml" filepath="H:\androidProjectMe\SuspendNotification\SuspensionNotification.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

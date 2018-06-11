@@ -1,9 +1,5 @@
 package com.github.xiaofei_dev.suspensionnotification.ui.activity;
 
-<<<<<<< HEAD
-import android.app.Activity;
-=======
->>>>>>> 286c8bfd57790dc85e452953b2c21f42140cd7e4
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -33,7 +29,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.github.xiaofei_dev.suspensionnotification.R;
-import com.github.xiaofei_dev.suspensionnotification.backstage.FloatingIconService;
+import com.github.xiaofei_dev.suspensionnotification.backstage.MyService;
 import com.github.xiaofei_dev.suspensionnotification.util.RegexText;
 import com.github.xiaofei_dev.suspensionnotification.util.ToastUtils;
 import java.util.ArrayList;
@@ -59,6 +55,7 @@ public final class MainActivity extends AppCompatActivity {
     private static final String IS_CHECKED_HIDE_ICON = "IS_CHECKED_HIDE_ICON";
     private static final String IS_CHECKED_HIDE_NEW = "IS_CHECKED_HIDE_NEW";
     public static int OVERLAY_PERMISSION_REQ_CODE = 110;
+    private View mSettingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +73,12 @@ public final class MainActivity extends AppCompatActivity {
         setCheckedHideIcon();
         setCheckedHideNew();
         clipBoardMonitor();
-//        Log.d(TAG, "onCreate: ");
-//        boolean back = getIntent().getBooleanExtra("moveTaskToBack",false);
-//        if(back){
-//            moveTaskToBack(true);
-//            //Log.i(TAG, "onCreate: veTaskToBack");
-//        }
+        Log.d(TAG, "onCreate: ");
+        boolean back = getIntent().getBooleanExtra("moveTaskToBack",false);
+        if(back){
+            moveTaskToBack(true);
+            //Log.i(TAG, "onCreate: veTaskToBack");
+        }
         //当前活动被销毁后再重建时保证调用onNewIntent(）方法
         onNewIntent(getIntent());
         if (!isCheckedHideNew){
@@ -89,7 +86,7 @@ public final class MainActivity extends AppCompatActivity {
         }
 
         //权限自检
-        if(Build.VERSION.SDK_INT >= 23){
+        /*if(Build.VERSION.SDK_INT >= 23){
             if(Settings.canDrawOverlays(this)){
 //                //有悬浮窗权限则开启服务
 //                clipBoardMonitor();
@@ -98,7 +95,7 @@ public final class MainActivity extends AppCompatActivity {
 //                ToastUtil.showShort(getString(R.string.begin));
             }else {
                 //没有悬浮窗权限,去开启悬浮窗权限
-                ToastUtils.showShort("您需要授予应用在其他应用上层显示的权限才可正常使用");
+                ToastUtils.showShort("您需要授予应用在其他应用上层显示的权限才可使用全部功能");
                 try{
                     Intent  intent=new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
                     startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
@@ -107,7 +104,7 @@ public final class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }
+        }*/
     }
 
     @Override
@@ -115,11 +112,18 @@ public final class MainActivity extends AppCompatActivity {
         if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
             if(Build.VERSION.SDK_INT>=23) {
                 if (!Settings.canDrawOverlays(this)) {
-                    ToastUtils.showShort("获取权限失败，应用将无法工作");
-                    finish();
+                    ToastUtils.showShort("获取权限失败，复制浮窗将无法显示");
+                    editor.putBoolean(IS_CHECKED,false);
+                    editor.apply();
+                    setIsChecked();
+                    if (mSettingView != null){
+                        ((CheckBox)mSettingView.findViewById(R.id.check_box)).setChecked(false);
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(),"获取权限成功！应用可以正常使用了",Toast.LENGTH_SHORT).show();
-
+                    editor.putBoolean(IS_CHECKED,true);
+                    editor.apply();
+                    setIsChecked();
                 }
             }
         }
@@ -148,7 +152,7 @@ public final class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent(MainActivity.this,FloatingIconService.class);
+        Intent intent = new Intent(MainActivity.this,MyService.class);
         stopService(intent);
         //撤销发出的所有通知
         //manager.cancelAll();
@@ -201,12 +205,13 @@ public final class MainActivity extends AppCompatActivity {
                         //.setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(cont))
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-                        if(isCheckedHideIcon){
-                            notificationBulider.setPriority(NotificationCompat.PRIORITY_MIN);
-                        }else {
-                            notificationBulider.setPriority(NotificationCompat.PRIORITY_HIGH);
 
-                        }
+                if(isCheckedHideIcon){
+                    notificationBulider.setPriority(NotificationCompat.PRIORITY_MIN);
+                }else {
+                    notificationBulider.setPriority(NotificationCompat.PRIORITY_HIGH);
+
+                }
                 Notification notifications = notificationBulider.build();
                 manager.notify(notifID,notifications);
                 moveTaskToBack(true);
@@ -301,17 +306,19 @@ public final class MainActivity extends AppCompatActivity {
      *desc：返回设置视图
      */
     private View getSettingView(){
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.dialog_setting, null);
-        CheckBox checkBox = (CheckBox)view.findViewById(R.id.check_box);
-        checkBox.setChecked(isChecked);
-        CheckBox checkBoxBoot = (CheckBox)view.findViewById(R.id.check_box_boot);
-        checkBoxBoot.setChecked(isCheckedBoot);
-        CheckBox checkHideIcon = (CheckBox)view.findViewById(R.id.check_hide_icon);
-        checkHideIcon.setChecked(isCheckedHideIcon);
-        CheckBox checkHideNew = (CheckBox)view.findViewById(R.id.check_hide_new);
-        checkHideNew.setChecked(isCheckedHideNew);
-        return view;
+        if (mSettingView == null){
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mSettingView = inflater.inflate(R.layout.dialog_setting, null);
+            CheckBox checkBox = (CheckBox)mSettingView.findViewById(R.id.check_box);
+            checkBox.setChecked(isChecked);
+            CheckBox checkBoxBoot = (CheckBox)mSettingView.findViewById(R.id.check_box_boot);
+            checkBoxBoot.setChecked(isCheckedBoot);
+            CheckBox checkHideIcon = (CheckBox)mSettingView.findViewById(R.id.check_hide_icon);
+            checkHideIcon.setChecked(isCheckedHideIcon);
+            CheckBox checkHideNew = (CheckBox)mSettingView.findViewById(R.id.check_hide_new);
+            checkHideNew.setChecked(isCheckedHideNew);
+        }
+        return mSettingView;
     }
 
     /**
@@ -321,9 +328,34 @@ public final class MainActivity extends AppCompatActivity {
         switch (view.getId()){
             case R.id.check_box:
                 boolean checked = ((CheckBox) view).isChecked();
-                editor.putBoolean(IS_CHECKED,checked);
-                editor.apply();
-                setIsChecked();
+                if (checked) {
+                    //悬浮窗权限自检
+                    if(Build.VERSION.SDK_INT >= 23){
+                        if(Settings.canDrawOverlays(this)){
+                            editor.putBoolean(IS_CHECKED,true);
+                            editor.apply();
+                            setIsChecked();
+                        }else {
+                            //没有悬浮窗权限,去开启悬浮窗权限
+                            ToastUtils.showShort("您需要授予应用在其他应用上层显示的权限才可正常使用此功能");
+                            try{
+                                Intent  intent=new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                                startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
+                            }catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                    }else {
+                        editor.putBoolean(IS_CHECKED,true);
+                        editor.apply();
+                        setIsChecked();
+                    }
+                }else {
+                    editor.putBoolean(IS_CHECKED,false);
+                    editor.apply();
+                    setIsChecked();
+                }
                 break;
             case R.id.check_box_boot:
                 boolean checkedBoot= ((CheckBox) view).isChecked();
@@ -379,7 +411,8 @@ public final class MainActivity extends AppCompatActivity {
                 .setContentText(getString(R.string.add_new_content))
                 .setSmallIcon(R.drawable.ic_more)
                 .setColor(Color.parseColor("#00838F"))
-//                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
+//                .setLargeIcon(BitmapFactory.decodeResource(
+//                        getResources(), R.drawable.ic_launcher))
                 .setContentIntent(pi)
                 .setOngoing(true)
                 //将通知的 Priority 设置为 PRIORITY_MIN 后，通知的小图标将不在状态栏显示，而且锁屏界面也会无法显示
@@ -408,7 +441,7 @@ public final class MainActivity extends AppCompatActivity {
                         return;
                     }
 
-                    Intent intent = new Intent(MainActivity.this,FloatingIconService.class);
+                    Intent intent = new Intent(MainActivity.this,MyService.class);
                     intent.putExtra("TEXT",text);
                     MainActivity.this.startService(intent);
 //                    Intent intent = newIntent(MainActivity.this,text);
@@ -423,7 +456,7 @@ public final class MainActivity extends AppCompatActivity {
      *desc：从首选项获取相应 checkBox 的 bollean 值
      */
     private void setIsChecked(){
-        isChecked = sharedPreferences.getBoolean(IS_CHECKED,true);
+        isChecked = sharedPreferences.getBoolean(IS_CHECKED,false);
     }
     private void setIsCheckedBoot(){
         isCheckedBoot= sharedPreferences.getBoolean(IS_CHECKED_BOOT,true);

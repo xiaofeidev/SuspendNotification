@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">随手一记</string>
-<<<<<<< HEAD
-    <string name="app_version">随手一记 V2.0</string>
-=======
-    <string name="app_version">随手一记 V2.4.0</string>
->>>>>>> 286c8bfd57790dc85e452953b2c21f42140cd7e4
+    <string name="app_version">随手一记 V2.4.1</string>
     <string name="add_new_title">随手一记主界面入口</string>
     <string name="add_new_content">点击添加新通知</string>
     <string name="title">输入标题</string>
