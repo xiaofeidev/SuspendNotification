@@ -80,34 +80,12 @@ public final class MainActivity extends AppCompatActivity {
         boolean back = getIntent().getBooleanExtra("moveTaskToBack",false);
         if(back){
             moveTaskToBack(true);
-            //Log.i(TAG, "onCreate: veTaskToBack");
         }
         //当前活动被销毁后再重建时保证调用onNewIntent(）方法
         onNewIntent(getIntent());
         if (!isCheckedHideNew){
             notifAddNew();
         }
-
-        //权限自检
-        /*if(Build.VERSION.SDK_INT >= 23){
-            if(Settings.canDrawOverlays(this)){
-//                //有悬浮窗权限则开启服务
-//                clipBoardMonitor();
-//                ToastUtil.showToast(this,getString(R.string.begin));
-                //有悬浮窗权限则只弹出提示消息
-//                ToastUtil.showShort(getString(R.string.begin));
-            }else {
-                //没有悬浮窗权限,去开启悬浮窗权限
-                ToastUtils.showShort("您需要授予应用在其他应用上层显示的权限才可使用全部功能");
-                try{
-                    Intent  intent=new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                    startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
-                }catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }*/
     }
 
     @Override
@@ -488,3 +466,24 @@ public final class MainActivity extends AppCompatActivity {
         notificationManager.createNotificationChannel(channel);
     }
 }
+
+//权限自检
+        /*if(Build.VERSION.SDK_INT >= 23){
+            if(Settings.canDrawOverlays(this)){
+//                //有悬浮窗权限则开启服务
+//                clipBoardMonitor();
+//                ToastUtil.showToast(this,getString(R.string.begin));
+                //有悬浮窗权限则只弹出提示消息
+//                ToastUtil.showShort(getString(R.string.begin));
+            }else {
+                //没有悬浮窗权限,去开启悬浮窗权限
+                ToastUtils.showShort("您需要授予应用在其他应用上层显示的权限才可使用全部功能");
+                try{
+                    Intent  intent=new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                    startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }*/
