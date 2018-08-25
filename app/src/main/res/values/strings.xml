@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">随手一记</string>
-    <string name="app_version">随手一记 V2.4.2</string>
+    <string name="app_version">随手一记 V2.4.6</string>
     <string name="add_new_title">随手一记主界面入口</string>
     <string name="add_new_content">点击添加新通知</string>
     <string name="title">输入标题</string>
@@ -27,7 +27,7 @@
     <string name="cancel_all_done">已撤销所有通知</string>
 
     <string name="aboutDeveloper">作者：github@xiaofei_dev</string>
-    <string name="aboutDesign">感谢 @枫柠檬 制作图标</string>
+    <string name="aboutDesign">感谢 酷安@枫柠檬 制作图标</string>
     <string name="openSourceLink">https://github.com/xiaofei-dev/SuspendNotification</string>
     <string name="aboutXBB_Title">关于本应用：</string>
     <string name="aboutXBB_OpenSource">
