@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     <ImageView
         android:id="@+id/setting"
         android:layout_width="30dp"
@@ -16,7 +17,6 @@
         android:background="@drawable/text_bg"
         android:onClick="onClick"/>
 
-
     <EditText
         android:id="@+id/title"
         android:layout_width="match_parent"
@@ -24,7 +24,6 @@
         android:hint="@string/title"
         android:layout_below="@id/setting"
         style="@style/EtTheme"/>
-
 
     <EditText
         android:id="@+id/content"
@@ -64,6 +63,4 @@
         android:text="@string/positive"
         android:textColor="@color/posColor"
         style="@style/BtnTheme"/>
-
-
 </RelativeLayout>
