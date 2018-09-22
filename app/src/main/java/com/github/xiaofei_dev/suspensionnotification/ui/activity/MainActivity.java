@@ -126,11 +126,15 @@ public final class MainActivity extends AppCompatActivity {
          *若是这样，获取到的文本将都为 "" ，notifID 将产生一个新的值,即 id++
          */
         String head = intent.getStringExtra("title");
-        String cont = intent.getStringExtra("content");
+        String content = intent.getStringExtra("content");
+        if (content == null || content.isEmpty()){
+            //content为空则为系统文本分享
+            content = intent.getStringExtra(Intent.EXTRA_TEXT);
+        }
         notifID = intent.getIntExtra("id",id++);
         title.setText(head);
-        content.setText(cont);
-        Log.d(TAG, "onNewIntent: "+ head + " "+cont +" "+ notifID);
+        this.content.setText(content);
+        Log.d(TAG, "onNewIntent: "+ head + " "+content +" "+ notifID);
     }
 
     @Override
