@@ -11,10 +11,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
@@ -56,7 +58,7 @@ public final class MainActivity extends AppCompatActivity {
     private static final String IS_CHECKED_BOOT = "IS_CHECKED_BOOT";
     private static final String IS_CHECKED_HIDE_ICON = "IS_CHECKED_HIDE_ICON";
     private static final String IS_CHECKED_HIDE_NEW = "IS_CHECKED_HIDE_NEW";
-    public static int OVERLAY_PERMISSION_REQ_CODE = 110;
+    public static int OVERLAY_PERMISSION_REQ_CODE = 1;
     private View mSettingView;
     private AlertDialog mSettingDialog;
 
@@ -90,23 +92,29 @@ public final class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
-            if(Build.VERSION.SDK_INT>=23) {
-                if (!Settings.canDrawOverlays(this)) {
-                    ToastUtils.showShort("获取权限失败，复制浮窗将无法显示");
-                    editor.putBoolean(IS_CHECKED,false);
-                    editor.apply();
-                    setIsChecked();
-                    if (mSettingView != null){
-                        ((CheckBox)mSettingView.findViewById(R.id.check_box)).setChecked(false);
+        super.onActivityResult(requestCode, resultCode, data);
+        if(Build.VERSION.SDK_INT >= 23) {
+            //延迟检查权限不然回返回 false
+            title.postDelayed(new Runnable() {
+                @Override
+                @RequiresApi(api = Build.VERSION_CODES.M)
+                public void run() {
+                    if (Settings.canDrawOverlays(MainActivity.this)) {
+                        Toast.makeText(getApplicationContext(),"获取权限成功！复制浮窗可以正常使用了",Toast.LENGTH_SHORT).show();
+                        editor.putBoolean(IS_CHECKED,true);
+                        editor.apply();
+                        setIsChecked();
+                    } else {
+                        ToastUtils.showShort("获取权限失败，复制浮窗将无法显示");
+                        editor.putBoolean(IS_CHECKED,false);
+                        editor.apply();
+                        setIsChecked();
+                        if (mSettingView != null){
+                            ((CheckBox)mSettingView.findViewById(R.id.check_box)).setChecked(false);
+                        }
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(),"获取权限成功！应用可以正常使用了",Toast.LENGTH_SHORT).show();
-                    editor.putBoolean(IS_CHECKED,true);
-                    editor.apply();
-                    setIsChecked();
                 }
-            }
+            },500);
         }
     }
 
@@ -262,11 +270,6 @@ public final class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
                                     int position, long id) {
-//                if(view.getBackground() == getResources().getDrawable(R.drawable.button_default)){
-//                    view.setBackgroundResource(R.drawable.button_pressed);
-//                }else {
-//                    view.setBackgroundResource(R.drawable.button_default);
-//                }
                 if(positions.contains(position)){
                     //因为 positions 列表存储的是 Integer 类型 ，所以需要想办法避免自动拆箱
                     Object object = Integer.valueOf(position);
@@ -276,10 +279,6 @@ public final class MainActivity extends AppCompatActivity {
                     positions.add(position);
                     view.setBackgroundResource(R.color.white_translucent);
                 }
-
-//                content.setText(list.get(position));
-//                dialog.cancel();
-
             }
         });
         return rootView;
@@ -320,14 +319,9 @@ public final class MainActivity extends AppCompatActivity {
                             setIsChecked();
                         }else {
                             //没有悬浮窗权限,去开启悬浮窗权限
-                            ToastUtils.showShort("您需要授予应用在其他应用上层显示的权限才可正常使用此功能");
-                            try{
-                                Intent  intent=new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                                startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
-                            }catch (Exception e)
-                            {
-                                e.printStackTrace();
-                            }
+                            ToastUtils.showLong("您需要授予应用在其他应用上层显示的权限才可正常使用此功能");
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+                            startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
                         }
                     }else {
                         editor.putBoolean(IS_CHECKED,true);
@@ -479,7 +473,7 @@ public final class MainActivity extends AppCompatActivity {
                 //没有悬浮窗权限,去开启悬浮窗权限
                 ToastUtils.showShort("您需要授予应用在其他应用上层显示的权限才可使用全部功能");
                 try{
-                    Intent  intent=new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                    Intent  intent=new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
                     startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
                 }catch (Exception e)
                 {

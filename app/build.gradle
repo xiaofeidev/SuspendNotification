@@ -6,8 +6,8 @@ android {
         applicationId "com.github.xiaofei_dev.suspensionnotification"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 18
-        versionName "2.4.7"
+        versionCode 19
+        versionName "2.5.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
