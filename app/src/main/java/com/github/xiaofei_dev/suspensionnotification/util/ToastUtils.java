@@ -10,8 +10,6 @@ import com.github.xiaofei_dev.suspensionnotification.App;
  *desc：便捷显示 Toast 的工具类
  */
 public final class ToastUtils {
-
-
     public static void showShort(int stringId) {
         Toast.makeText(App.getContext(), stringId, Toast.LENGTH_SHORT).show();
     }

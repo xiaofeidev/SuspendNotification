@@ -2,7 +2,7 @@ package com.github.xiaofei_dev.suspensionnotification.util;
 /**
  *author Administrator
  *time 2017/3/19. 15:02
- *desc：正则分析字符串的工具类，主要方法返回分析和产生的列表
+ *desc：正则分析字符串的工具类，主要用于返回匹配的子串串列表
  */
 import java.util.ArrayList;
 import java.util.List;

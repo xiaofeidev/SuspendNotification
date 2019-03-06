@@ -6,8 +6,7 @@ import android.net.Uri;
 import android.widget.Toast;
 
 public final class OpenUtil {
-    public static void openApplicationMarket(String appPackageName, String marketPackageName,
-                                             Context context) {
+    public static void openApplicationMarket(String appPackageName, String marketPackageName, Context context) {
         try {
             String url = "market://details?id=" + appPackageName;
             Intent localIntent = new Intent(Intent.ACTION_VIEW);
