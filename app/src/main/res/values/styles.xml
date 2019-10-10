@@ -10,7 +10,7 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
-        <item name="android:windowAnimationStyle">@style/animationUp</item>
+<!--        <item name="android:windowAnimationStyle">@style/animationUp</item>-->
     </style>
     <style name="Dialog" parent="AppTheme">
         <item name="android:windowCloseOnTouchOutside">true</item>

@@ -10,17 +10,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +25,15 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import com.github.xiaofei_dev.suspensionnotification.R;
-import com.github.xiaofei_dev.suspensionnotification.backstage.MyService;
+import com.github.xiaofei_dev.suspensionnotification.backstage.ActiveService;
+import com.github.xiaofei_dev.suspensionnotification.backstage.CopyService;
 import com.github.xiaofei_dev.suspensionnotification.util.RegexText;
 import com.github.xiaofei_dev.suspensionnotification.util.ToastUtils;
 
@@ -78,7 +79,6 @@ public final class MainActivity extends AppCompatActivity {
         setCheckedHideIcon();
         setCheckedHideNew();
         clipBoardMonitor();
-        Log.d(TAG, "onCreate: ");
         boolean back = getIntent().getBooleanExtra("moveTaskToBack",false);
         if(back){
             moveTaskToBack(true);
@@ -145,7 +145,7 @@ public final class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent(MainActivity.this,MyService.class);
+        Intent intent = new Intent(MainActivity.this, CopyService.class);
         stopService(intent);
         //撤销发出的所有通知
         //manager.cancelAll();
@@ -184,7 +184,6 @@ public final class MainActivity extends AppCompatActivity {
                 intent.putExtra("id",notifID);
                 PendingIntent pi = PendingIntent.getActivity(this,notifID,intent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
-
 
                 //manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 NotificationCompat.Builder notificationBulider = new NotificationCompat.Builder(this, "default")
@@ -359,16 +358,17 @@ public final class MainActivity extends AppCompatActivity {
                 editor.apply();
                 setCheckedHideNew();
                 if (checkedHideNew){
-                    manager.cancel(-1);
+//                    manager.cancel(-1);
+                    stopService(new Intent(this, ActiveService.class));
                 }else {
                     notifAddNew();
                 }
                 break;
             case R.id.cancel_all:
                 manager.cancelAll();
-                if (!isCheckedHideNew){
+                /*if (!isCheckedHideNew){
                     notifAddNew();
-                }
+                }*/
                 ToastUtils.showShort(R.string.cancel_all_done);
                 break;
             case R.id.about:
@@ -384,7 +384,12 @@ public final class MainActivity extends AppCompatActivity {
      *desc：此方法发出一条快捷添加新通知的通知
      */
     private void  notifAddNew(){
-        Intent intent = new Intent(this,MainActivity.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(new Intent(this, ActiveService.class));
+        } else {
+            startService(new Intent(this, ActiveService.class));
+        }
+        /*Intent intent = new Intent(this,MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this,-1,intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder notificationBulider = new NotificationCompat.Builder(this, "default")
@@ -399,7 +404,7 @@ public final class MainActivity extends AppCompatActivity {
                 //将通知的 Priority 设置为 PRIORITY_MIN 后，通知的小图标将不在状态栏显示，而且锁屏界面也会无法显示
                 .setPriority(NotificationCompat.PRIORITY_MIN);
         Notification notification = notificationBulider.build();
-        manager.notify(-1,notification);
+        manager.notify(-1,notification);*/
     }
 
     /**
@@ -422,12 +427,9 @@ public final class MainActivity extends AppCompatActivity {
                         return;
                     }
 
-                    Intent intent = new Intent(MainActivity.this,MyService.class);
+                    Intent intent = new Intent(MainActivity.this, CopyService.class);
                     intent.putExtra("TEXT",text);
                     MainActivity.this.startService(intent);
-//                    Intent intent = newIntent(MainActivity.this,text);
-//                    Log.d(TAG, "onPrimaryClipChanged: ");
-//                    startActivity(intent);
                 }
             }
         });

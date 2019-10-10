@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
-
+def app = rootProject.ext.android
 android {
-    compileSdkVersion 27
+    compileSdkVersion app.compileSdkVersion
     defaultConfig {
-        applicationId "com.github.xiaofei_dev.suspensionnotification"
-        minSdkVersion 19
-        targetSdkVersion 27
-        versionCode 21
-        versionName "2.5.2"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        applicationId app.appId
+        minSdkVersion app.minSdkVersion
+        targetSdkVersion app.targetSdkVersion
+        versionCode app.versionCode
+        versionName app.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
     buildTypes {
@@ -23,11 +23,11 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     testImplementation 'junit:junit:4.12'
 
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
-    implementation 'com.android.support:appcompat-v7:27+'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
 //    compile 'com.android.support:recyclerview-v7:25.3.1'
 }
