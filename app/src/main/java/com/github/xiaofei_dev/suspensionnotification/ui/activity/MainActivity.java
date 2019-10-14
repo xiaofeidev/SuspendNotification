@@ -15,7 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,14 +33,24 @@ import androidx.core.app.NotificationManagerCompat;
 import com.github.xiaofei_dev.suspensionnotification.R;
 import com.github.xiaofei_dev.suspensionnotification.backstage.ActiveService;
 import com.github.xiaofei_dev.suspensionnotification.backstage.CopyService;
+import com.github.xiaofei_dev.suspensionnotification.util.HomeHelper;
 import com.github.xiaofei_dev.suspensionnotification.util.RegexText;
 import com.github.xiaofei_dev.suspensionnotification.util.ToastUtils;
+import com.github.xiaofei_dev.suspensionnotification.util.bean.HomeData;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public final class MainActivity extends AppCompatActivity {
+import static com.github.xiaofei_dev.suspensionnotification.contract.Contract.IS_CHECKED;
+import static com.github.xiaofei_dev.suspensionnotification.contract.Contract.IS_CHECKED_BOOT;
+import static com.github.xiaofei_dev.suspensionnotification.contract.Contract.IS_CHECKED_HIDE_ICON;
+import static com.github.xiaofei_dev.suspensionnotification.contract.Contract.IS_CHECKED_HIDE_NEW;
+import static com.github.xiaofei_dev.suspensionnotification.contract.Contract.OVERLAY_PERMISSION_REQ_CODE;
+
+public final class MainActivity extends AppCompatActivity implements Observer {
     private EditText title;
     private EditText content;
     private NotificationManagerCompat manager;
@@ -54,14 +63,17 @@ public final class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private final List<Integer> positions = new ArrayList<>();
-    private static final String TAG = "MainActivity";
-    private static final String IS_CHECKED = "IS_CHECKED";
-    private static final String IS_CHECKED_BOOT = "IS_CHECKED_BOOT";
-    private static final String IS_CHECKED_HIDE_ICON = "IS_CHECKED_HIDE_ICON";
-    private static final String IS_CHECKED_HIDE_NEW = "IS_CHECKED_HIDE_NEW";
-    public static int OVERLAY_PERMISSION_REQ_CODE = 1;
     private View mSettingView;
     private AlertDialog mSettingDialog;
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof HomeHelper && ((HomeData)arg).isClickHome()){
+            if (mSettingDialog != null){
+                mSettingDialog.cancel();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +83,8 @@ public final class MainActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(this);
         editor = sharedPreferences.edit();
-        title = (EditText)findViewById(R.id.title);
-        content = (EditText)findViewById(R.id.content);
+        title = findViewById(R.id.title);
+        content = findViewById(R.id.content);
         manager = NotificationManagerCompat.from(this);
         setIsChecked();
         setIsCheckedBoot();
@@ -88,6 +100,7 @@ public final class MainActivity extends AppCompatActivity {
         if (!isCheckedHideNew){
             notifAddNew();
         }
+        HomeHelper.getInstance(this).addObserver(this);
     }
 
     @Override
@@ -134,7 +147,7 @@ public final class MainActivity extends AppCompatActivity {
         notifID = intent.getIntExtra("id",id++);
         title.setText(head);
         this.content.setText(content);
-        Log.d(TAG, "onNewIntent: "+ head + " "+content +" "+ notifID);
+//        Log.d(TAG, "onNewIntent: "+ head + " "+content +" "+ notifID);
     }
 
     @Override
@@ -147,6 +160,7 @@ public final class MainActivity extends AppCompatActivity {
         super.onDestroy();
         Intent intent = new Intent(MainActivity.this, CopyService.class);
         stopService(intent);
+        HomeHelper.getInstance(this).deleteObserver(this);
         //撤销发出的所有通知
         //manager.cancelAll();
     }

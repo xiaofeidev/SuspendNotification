@@ -34,15 +34,9 @@
         <activity
             android:name=".ui.activity.AboutActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+            android:noHistory="true"
             android:theme="@style/Dialog">
         </activity>
-
-        <!--<activity-->
-            <!--android:name=".ui.activity.SplitActivity"-->
-            <!--android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/SplitDialog">-->
-        <!--</activity>-->
 
         <receiver
             android:name=".backstage.CopyReceiver"

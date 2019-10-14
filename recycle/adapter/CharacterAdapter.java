@@ -2,12 +2,13 @@ package com.github.xiaofei_dev.suspensionnotification.ui.adapter;
 
 
 import android.content.Context;
-import androidx.appcompat.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.RecyclerView;
 
 import com.github.xiaofei_dev.suspensionnotification.R;
 

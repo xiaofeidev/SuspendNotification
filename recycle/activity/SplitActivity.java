@@ -3,19 +3,15 @@ package com.github.xiaofei_dev.suspensionnotification.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.GridLayoutManager;
-import androidx.appcompat.widget.LinearLayoutManager;
 import androidx.appcompat.widget.RecyclerView;
-import androidx.appcompat.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 
 import com.github.xiaofei_dev.suspensionnotification.R;
 import com.github.xiaofei_dev.suspensionnotification.ui.adapter.CharacterAdapter;
-import com.github.xiaofei_dev.suspensionnotification.util.RegexUtil;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
