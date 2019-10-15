@@ -7,3 +7,4 @@ public interface Contract {
     String IS_CHECKED_HIDE_NEW = "IS_CHECKED_HIDE_NEW";
     int OVERLAY_PERMISSION_REQ_CODE = 1;
 }
+
